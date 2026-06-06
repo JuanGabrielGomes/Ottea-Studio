@@ -1,64 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ottea Studio — Institutional Website
+
+Institutional website for Ottea Studio, a Brazilian branding and digital strategy agency. Built by [glim.](https://github.com/JuanGabrielGomes)
+
+**[→ Live](https://tea-strategy-studio.vercel.app)**
+
+> _Repository name reflects the agency's former name (Tea Strategy Studio). The brand is now Ottea Studio._
+
+---
+
+## Overview
+
+Marketing and lead-generation website for a branding studio offering social media management, visual identity, content strategy, and paid traffic. The core goal of the site is to convert visitors into qualified leads through a multi-step diagnostic form.
+
+---
+
+## Features
+
+**Site**
+- Bilingual — Portuguese (`/`) and English (`/en`) with `hreflang` alternates and locale-aware metadata
+- Animated hero and page sections with [Framer Motion](https://www.framer.com/motion/)
+- CSS-only animated tea cup illustration (steam, liquid, tea bag, handle, saucer — no JS, no SVG library)
+- Responsive, mobile-first layout with Tailwind CSS v4 design tokens
+- Vercel Speed Insights
+
+**Lead capture — `/diagnostico`**
+- Multi-step form collecting brand context: challenge, project type, urgency, and budget range
+- Honeypot field (`contactTrap`) for silent spam rejection — no CAPTCHA
+- Server-side validation with bilingual error messages (PT / EN)
+- 3-channel parallel forwarding on submission:
+  - **Webhook** — generic HTTP POST to any endpoint
+  - **SMTP email** — via Nodemailer (Gmail or any SMTP provider)
+  - **ClickUp** — creates a task in a configured list via the ClickUp v2 API
+- Graceful degradation: responds `200` if at least one active channel succeeds; individual channel failures are logged but non-blocking
+- Optional local NDJSON persistence for environments with a writable filesystem
+
+**SEO**
+- `buildMetadata()` utility — generates `title`, `description`, canonical URL, `hreflang` alternates, Open Graph, and Twitter Card from a single call
+- JSON-LD structured data: `ProfessionalService` and `WebSite` schemas
+- Per-page `robots` configuration
+
+---
+
+## Tech Stack
+
+| | |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS v4 |
+| Animations | Framer Motion |
+| Email | Nodemailer |
+| Deployment | Vercel |
+
+---
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+git clone https://github.com/JuanGabrielGomes/Tea-Strategy-Studio.git
+cd Tea-Strategy-Studio
+npm install
+cp .env.local.example .env.local   # configure forwarding channels
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+At least one forwarding channel must be configured for the lead form to work.
 
-## Lead Form Forwarding
+**Webhook**
 
-The diagnostic form API (`/api/diagnostico`) can forward submissions to webhook and email (SMTP).
+| Variable | Description |
+|---|---|
+| `TEA_LEADS_WEBHOOK_URL` | HTTP endpoint that receives lead payloads as JSON POST |
 
-Configure in `.env.local`:
+**Email (Nodemailer)**
 
-```bash
-# Optional local lead persistence (NDJSON in /data)
-TEA_PERSIST_LOCAL_LEADS=false
+| Variable | Description |
+|---|---|
+| `TEA_SMTP_HOST` | SMTP host (default: `smtp.gmail.com`) |
+| `TEA_SMTP_PORT` | SMTP port (default: `465`) |
+| `TEA_SMTP_SECURE` | `true` for SSL, `false` for STARTTLS |
+| `TEA_SMTP_USER` | SMTP username |
+| `TEA_SMTP_PASS` | SMTP password or app password |
+| `TEA_LEADS_EMAIL_FROM` | Sender address |
+| `TEA_LEADS_EMAIL_TO` | Comma-separated list of recipient addresses |
 
-# Optional webhook forwarding
-TEA_LEADS_WEBHOOK_URL=
+**ClickUp**
 
-# Email forwarding via SMTP (Gmail example)
-TEA_SMTP_HOST="smtp.gmail.com"
-TEA_SMTP_PORT="465"
-TEA_SMTP_SECURE="true"
-TEA_SMTP_USER="your-email@gmail.com"
-TEA_SMTP_PASS="your-gmail-app-password"
-TEA_LEADS_EMAIL_FROM="Tea Strategy Studio <your-email@gmail.com>"
-TEA_LEADS_EMAIL_TO="you@company.com,another@company.com"
+| Variable | Description |
+|---|---|
+| `CLICKUP_API_TOKEN` | ClickUp personal API token |
+| `CLICKUP_LIST_ID` | ID of the list where lead tasks are created |
+
+**Optional**
+
+| Variable | Description |
+|---|---|
+| `TEA_PERSIST_LOCAL_LEADS` | Set to `true` to write leads to `data/diagnostico-leads.ndjson` (local only — not available on Vercel) |
+
+---
+
+## Lead Forwarding Architecture
+
+```
+POST /api/diagnostico
+  ├─ sanitize + validate (PT/EN)
+  ├─ honeypot check  →  silent 200 if triggered
+  └─ Promise.all([
+       forwardToWebhook(),   // generic HTTP POST
+       forwardToEmail(),     // Nodemailer SMTP
+       forwardToClickUp()    // ClickUp v2 API task
+     ])
+       ├─ all disabled      →  503
+       ├─ all failed        →  502 + console.error per channel
+       └─ at least one ok   →  200  (failures logged, non-blocking)
 ```
 
-Notes:
-- If webhook URL is not set, webhook forwarding is skipped.
-- If SMTP variables are not set, email forwarding is skipped.
-- For Gmail, use an App Password (not your normal account password).
+---
 
-## Learn More
+## Built by
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**[glim.](https://github.com/JuanGabrielGomes)** — boutique web engineering and digital design studio.
