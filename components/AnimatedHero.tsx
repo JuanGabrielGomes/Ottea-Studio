@@ -78,7 +78,7 @@ export default function AnimatedHero({ locale = "pt" }: AnimatedHeroProps) {
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
           aria-hidden="true"
           onLoadedData={() => setVideoReady(true)}
         >

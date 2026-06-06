@@ -146,6 +146,7 @@ export default function Home() {
               height={900}
               sizes="(min-width: 1024px) 38vw, 100vw"
               className="w-full rounded-2xl object-cover object-[50%_72%] aspect-[4/3] lg:aspect-[5/4]"
+              loading="lazy"
             />
           </div>
         </div>
@@ -182,6 +183,7 @@ export default function Home() {
                 height={1500}
                 sizes="(min-width: 1024px) 34vw, 100vw"
                 className="w-full rounded-xl object-cover object-[50%_68%] aspect-[4/3] lg:aspect-[5/4] max-h-[360px]"
+                loading="lazy"
               />
             </div>
           </div>
