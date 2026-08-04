@@ -4,7 +4,7 @@ import Link from "next/link"
 import { LazyMotion, m, useReducedMotion } from "framer-motion"
 
 const loadFeatures = () => import("framer-motion").then((mod) => mod.domAnimation)
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 type AnimatedHeroProps = {
   locale?: "pt" | "en"
@@ -57,6 +57,7 @@ export default function AnimatedHero({ locale = "pt" }: AnimatedHeroProps) {
   const [showVideo, setShowVideo] = useState(false)
   const [videoReady, setVideoReady] = useState(false)
   const allowVideo = shouldPlayHeroVideo(Boolean(reduceMotion))
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     if (!allowVideo) return
@@ -64,6 +65,32 @@ export default function AnimatedHero({ locale = "pt" }: AnimatedHeroProps) {
     const timer = window.setTimeout(() => setShowVideo(true), 140)
     return () => window.clearTimeout(timer)
   }, [allowVideo])
+
+  // Never rely on the autoPlay attribute — call .play() explicitly and treat
+  // a rejected Promise as the definitive signal to fall back to the static bg
+  // before any native player UI has a chance to render.
+  useEffect(() => {
+    if (!showVideo) return
+
+    const video = videoRef.current
+    if (!video) return
+
+    const tryPlay = () => {
+      video.play().catch(() => {
+        setShowVideo(false)
+      })
+    }
+
+    if (video.readyState >= 3) {
+      tryPlay()
+    } else {
+      video.addEventListener("canplay", tryPlay, { once: true })
+    }
+
+    return () => {
+      video.removeEventListener("canplay", tryPlay)
+    }
+  }, [showVideo])
 
   return (
     <LazyMotion features={loadFeatures} strict>
@@ -73,14 +100,14 @@ export default function AnimatedHero({ locale = "pt" }: AnimatedHeroProps) {
 
       {allowVideo && showVideo && (
         <video
+          ref={videoRef}
           className={`absolute inset-0 h-full w-full object-cover pointer-events-none transition-opacity duration-500 ${videoReady ? "opacity-100" : "opacity-0"}`}
-          autoPlay
           muted
           loop
           playsInline
           preload="none"
           aria-hidden="true"
-          onLoadedData={() => setVideoReady(true)}
+          onCanPlay={() => setVideoReady(true)}
         >
           <source src="/video-home.mp4" type="video/mp4" />
         </video>
