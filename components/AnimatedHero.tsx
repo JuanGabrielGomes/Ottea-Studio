@@ -85,6 +85,7 @@ export default function AnimatedHero({ locale = "pt" }: AnimatedHeroProps) {
       tryPlay()
     } else {
       video.addEventListener("canplay", tryPlay, { once: true })
+      video.load()
     }
 
     return () => {
