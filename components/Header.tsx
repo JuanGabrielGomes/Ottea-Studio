@@ -175,14 +175,14 @@ export default function Header() {
             suppressHydrationWarning
             className="rounded-[0.85rem] border border-[var(--tea-brown)]/35 px-3 py-2 text-xs uppercase tracking-[0.14em] hover:border-[var(--tea-hover)] hover:text-[var(--tea-hover)] transition-colors"
           >
-            {theme.toUpperCase()}
+            {theme === "dark" ? "LIGHT" : "DARK"}
           </button>
 
           <Link
             href={toggleHref}
             className="rounded-[0.85rem] border border-[var(--tea-brown)]/35 px-3 py-2 text-xs uppercase tracking-[0.14em] hover:border-[var(--tea-hover)] hover:text-[var(--tea-hover)] transition-colors"
           >
-            {toggleLabel}
+            {locale === "pt" ? "EN" : "PT"}
           </Link>
         </nav>
 
@@ -219,14 +219,14 @@ export default function Header() {
               suppressHydrationWarning
               className="block w-full rounded-[0.85rem] text-left border border-[var(--tea-brown)]/35 px-4 py-3 text-sm uppercase tracking-[0.16em]"
             >
-              {theme.toUpperCase()}
+              {theme === "dark" ? "LIGHT" : "DARK"}
             </button>
             <Link
               href={toggleHref}
               onClick={() => setMenuOpen(false)}
               className="block w-full rounded-[0.85rem] border border-[var(--tea-brown)]/35 px-4 py-3 text-sm uppercase tracking-[0.16em] text-left"
             >
-              {toggleLabel}
+              {locale === "pt" ? "EN" : "PT"}
             </Link>
           </nav>
         </div>
