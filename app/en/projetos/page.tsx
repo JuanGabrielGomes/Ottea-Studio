@@ -12,7 +12,7 @@ type CasePalette = {
 }
 
 type Case = {
-  id: "delivery" | "pacco" | "sirley" | "donna"
+  id: "delivery" | "mocellin" | "sirley" | "donna"
   brand: string
   headline: string
   body: string
@@ -43,23 +43,23 @@ const cases: Case[] = [
     },
   },
   {
-    id: "pacco",
-    brand: "Pacco Café",
-    headline: "Positioning and consistency for a digital presence built on warmth.",
+    id: "mocellin",
+    brand: "Mocellin Joias",
+    headline: "A monogram born from a handcrafted stroke, light and continuous like the brand's pieces.",
     body:
-      "We structured Pacco's digital presence with a focus on positioning and consistency of language. The editorial direction connects aesthetics, routine and proximity to turn the brand's communication into an experience of warmth, relationship and belonging.",
-    instagram: "https://www.instagram.com/paccohomedecorecaffe/",
-    logoSrc: "/images/portfolio/pacco-cafe.png",
-    logoAlt: "Pacco Cafe logo",
+      "We led Mocellin's rebranding with a handcrafted eye from start to finish. The new monogram was born from a hand-drawn stroke, light and continuous, like the pieces the brand chooses to accompany its clients' daily lives. The identity now communicates delicacy, closeness and curation at every touchpoint, from the showroom to Instagram.",
+    instagram: "https://www.instagram.com/mocellinjoias/",
+    logoSrc: "/images/portfolio/mocellin-joias.png",
+    logoAlt: "Mocellin Joias logo",
     palette: {
-      panelBg: "bg-white",
-      panelText: "text-[#3f3024]",
-      bodyBg: "bg-white",
-      bodyText: "text-[#3f3024]",
-      accent: "text-[#7f7568]",
-      border: "border-[#e9dfd1]",
+      panelBg: "bg-[#8f8070]",
+      panelText: "text-[var(--tea-cream)]",
+      bodyBg: "bg-[#8f8070]",
+      bodyText: "text-[var(--tea-cream)]",
+      accent: "text-[var(--tea-cream)]/80",
+      border: "border-[#7a6c5e]",
     },
-    logoClassName: "object-contain scale-[0.82]",
+    logoClassName: "object-contain scale-[0.75]",
   },
   {
     id: "sirley",
@@ -82,9 +82,9 @@ const cases: Case[] = [
   {
     id: "donna",
     brand: "Donna K",
-    headline: "Originality built with intention, not with trends.",
+    headline: "From a strong identity to social media, with the same care as the atelier.",
     body:
-      "From the start, the direction was clear: create an authorial, elegant brand consistent with its own purpose. Every choice was made with criteria to build a strong and memorable presence.",
+      "Donna K was born with a strong identity. Our role was to bring that essence to social media with the same care the atelier dedicates to every bride. From the editorial line to scripts and content calendar, we built consistent communication that brings the brand closer to those living one of the most special moments of their lives.",
     instagram: "https://www.instagram.com/atelierdonnak.pt/",
     logoSrc: "/images/portfolio/donna-k.png",
     logoAlt: "Donna K logo",

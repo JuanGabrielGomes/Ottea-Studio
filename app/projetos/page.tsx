@@ -12,7 +12,7 @@ type CasePalette = {
 }
 
 type Case = {
-  id: "delivery" | "pacco" | "sirley" | "donna"
+  id: "delivery" | "mocellin" | "sirley" | "donna"
   brand: string
   headline: string
   body: string
@@ -43,23 +43,23 @@ const cases: Case[] = [
     },
   },
   {
-    id: "pacco",
-    brand: "Pacco Café",
-    headline: "Posicionamento e consistência para uma presença digital com afeto.",
+    id: "mocellin",
+    brand: "Mocellin Joias",
+    headline: "Um monograma nascido do traço à mão, leve e contínuo como as peças da marca.",
     body:
-      "Estruturamos a presença digital da Pacco com foco em posicionamento e consistência de linguagem. A direção editorial conecta estética, rotina e proximidade para transformar a comunicação da marca em uma experiência de afeto, relação e pertencimento.",
-    instagram: "https://www.instagram.com/paccohomedecorecaffe/",
-    logoSrc: "/images/portfolio/pacco-cafe.png",
-    logoAlt: "Logo da Pacco Café",
+      "Conduzimos o rebranding da Mocellin com um olhar artesanal até o fim. O novo monograma nasceu de um traço feito à mão, leve e contínuo, como as peças que a marca escolhe para acompanhar a rotina das clientes. A identidade passou a comunicar delicadeza, proximidade e curadoria em cada ponto de contato, do showroom ao Instagram.",
+    instagram: "https://www.instagram.com/mocellinjoias/",
+    logoSrc: "/images/portfolio/mocellin-joias.png",
+    logoAlt: "Logo da Mocellin Joias",
     palette: {
-      panelBg: "bg-white",
-      panelText: "text-[#3f3024]",
-      bodyBg: "bg-white",
-      bodyText: "text-[#3f3024]",
-      accent: "text-[#7f7568]",
-      border: "border-[#e9dfd1]",
+      panelBg: "bg-[#8f8070]",
+      panelText: "text-[var(--tea-cream)]",
+      bodyBg: "bg-[#8f8070]",
+      bodyText: "text-[var(--tea-cream)]",
+      accent: "text-[var(--tea-cream)]/80",
+      border: "border-[#7a6c5e]",
     },
-    logoClassName: "object-contain scale-[0.82]",
+    logoClassName: "object-contain scale-[0.75]",
   },
   {
     id: "sirley",
@@ -82,9 +82,9 @@ const cases: Case[] = [
   {
     id: "donna",
     brand: "Donna K",
-    headline: "Originalidade construída com intenção, não com tendência.",
+    headline: "Da identidade forte às redes, com o mesmo cuidado do atelier.",
     body:
-      "Desde o início, o direcionamento foi claro: criar uma marca autoral, elegante e coerente com o próprio propósito. Cada escolha foi feita com critério para construir uma presença forte e memorável.",
+      "A Donna K já nasceu com uma identidade forte. Nosso papel foi levar essa essência para as redes com o mesmo cuidado que o atelier dedica a cada noiva. Da linha editorial aos roteiros e ao calendário de conteúdos, construímos uma comunicação consistente, que aproxima a marca de quem está vivendo um dos momentos mais especiais da vida.",
     instagram: "https://www.instagram.com/atelierdonnak.pt/",
     logoSrc: "/images/portfolio/donna-k.png",
     logoAlt: "Logo da Donna K",
