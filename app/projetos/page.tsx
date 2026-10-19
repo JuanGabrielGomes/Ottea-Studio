@@ -59,7 +59,7 @@ const cases: Case[] = [
       accent: "text-[var(--tea-cream)]/80",
       border: "border-[#7a6c5e]",
     },
-    logoClassName: "object-contain scale-[0.75]",
+    logoClassName: "object-contain scale-[1.1]",
   },
   {
     id: "sirley",
